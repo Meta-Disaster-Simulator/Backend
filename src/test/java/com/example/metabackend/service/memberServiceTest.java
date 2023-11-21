@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-@Transactional
+@Transactional // Test 단위에서 Transactional 사용시 Test 완료 되면 DB 저장이 안됨 (Test 용도)
 public class memberServiceTest {
 
     @Autowired
@@ -22,29 +22,29 @@ public class memberServiceTest {
     private memberRepository memberRepository;
 
     @Test
-    public void 회원가입_테스트() {
+    public void 올바른_회원가입_테스트() { // 최근 작동 여부 : O
         CreateMemberDTO form = new CreateMemberDTO();
         form.setId("아이디");
-        form.setName("강민기");
+        form.setNickname("강민기");
         form.setPassword("비밀번호");
         Member member = memberService.join(form);
-        assertThat(member.getMemberPassword())
-                .isEqualTo(memberRepository.findbyid("아이디").get().getMemberPassword());
+        assertThat(member.getNickname())
+                .isEqualTo(memberRepository.findbyid("아이디").get().getNickname());
     }
 
     @Test
-    public void 아이디_중복_회원가입_테스트() {
+    public void 아이디_중복_회원가입_에러_테스트() { // 최근 작동 여부 : O
         CreateMemberDTO form = new CreateMemberDTO();
         form.setId("Id");
-        form.setName("name");
+        form.setNickname("name");
         form.setPassword("password");
 
         CreateMemberDTO form2 = new CreateMemberDTO();
         form2.setId("Id");
-        form2.setName("na");
+        form2.setNickname("na");
         form2.setPassword("pass");
 
-        memberService.join(form);
+        memberService.join(form);//메서드 실행 시 IllegalStateException 예외 발생하면 잘 실행됨
         assertThrows(IllegalStateException.class, ()-> {
             memberService.join(form2);
         });

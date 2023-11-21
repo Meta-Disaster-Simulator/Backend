@@ -28,16 +28,23 @@ public class memberService {
 
     }
 
+    //회원 가입 로직
+    // DTO 를 domain으로 수정
+    // 동일한 id 있을 시에는 예외
     public Member join(CreateMemberDTO form) throws IllegalStateException{
         Member member = new Member();
         member.setNickname(form.getNickname());
         member.setId(form.getId());
         member.setPassword(passwordEncoder.encode(form.getPassword()));
+        member.setScore(0); // 회원 가입 초기값
         //member.setRole("ROLE_ADMIN");
-        Duplicate(member);
+        Duplicate(member); // 동일 검사
         memberrepository.save(member);
         return member;
     }
+
+    //로그인
+    //
     public TokenInfo login(login_form loginForm) {
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false

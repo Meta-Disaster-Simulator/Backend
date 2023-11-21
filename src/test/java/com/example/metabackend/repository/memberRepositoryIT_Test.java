@@ -17,15 +17,28 @@ public class memberRepositoryIT_Test {
     private memberRepository memberRepository;
 
     @Test
-    public void 저장_test() {
+    public void 저장_test() { // 최근 작동 여부 : O
         Member member = new Member();
-        member.setName("name");
-        member.setMemberId("ID");
-        member.setMemberPassword("password");
-        member.setRole("USER");
+        member.setNickname("name");
+        member.setPassword("password");
+        member.setId("Id");
+        member.setScore(0);
         memberRepository.save(member);
-        assertThat(member.getName())
-                .isEqualTo(memberRepository.findbyid("ID").get().getName());
+        assertThat(member.getNickname())
+                .isEqualTo(memberRepository.findbyid("ID").get().getNickname());
+    }
+
+    @Test
+    public void 읽기_테스트(){// 최근 작동 여부 : O
+        Member member = new Member();
+        member.setNickname("name");
+        member.setPassword("password");
+        member.setId("Id");
+        member.setScore(0);
+        memberRepository.save(member);
+        // 주의 member 는 VO 가 아니라서 객체의 값으로 비교해야 함
+        assertThat(memberRepository.findByNickname("name").get().getNickname())
+                .isEqualTo(memberRepository.findbyid("ID").get().getNickname());
     }
 
 
