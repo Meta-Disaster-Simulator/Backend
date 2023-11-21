@@ -17,9 +17,6 @@ public class GetPageController {
         this.memberservice = memberService;
     }
 
-
-
-
     @GetMapping("/") // main page
     public String main_page() {
         return "navar";

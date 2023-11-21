@@ -22,35 +22,34 @@ public class JDBCTemplatememberRepository implements memberRepository {
     @Override
     public Member save(Member member) {
         // SQL query를 정의
-        String sql = "INSERT INTO member (memberId, memberPassword, name,memberRole) VALUES (?, ?, ?,?)";
+        String sql = "INSERT INTO member (id, password, score, nickname) VALUES (?, ?, ?, ?)";
         // SQL query 실행
-        jdbcTemplate.update(sql, member.getMemberId(), member.getMemberPassword(), member.getName(),member.getRole());
+        jdbcTemplate.update(sql, member.getId(), member.getPassword(), member.getScore(), member.getNickname());
         return member;
     }
 
     @Override
-    public Optional<Member> findbyid(String memberid) {
-        String sql = "SELECT * FROM member where memberId=?";
-        List<Member> result = jdbcTemplate.query(sql,memberRowMapper(),memberid);
+    public Optional<Member> findbyid(String id) {
+        String sql = "SELECT * FROM member where id=?";
+        List<Member> result = jdbcTemplate.query(sql,memberRowMapper(), id);
 
         return result.stream().findAny();
     }
 
     @Override
-    public Optional<Member> findByName(String name) {
-        String sql = "SELECT * FROM member where name=?";
-        List<Member> result = jdbcTemplate.query(sql, memberRowMapper(), name);
+    public Optional<Member> findByNickname(String nickname) {
+        String sql = "SELECT * FROM member where nickname=?";
+        List<Member> result = jdbcTemplate.query(sql, memberRowMapper(), nickname);
         return result.stream().findAny();
     }
-
 
     private RowMapper<Member> memberRowMapper() {
         return (rs,rowNum) ->{
             Member member = new Member();
-            member.setName(rs.getString("name"));
-            member.setMemberId(rs.getString("memberId"));
-            member.setMemberPassword(rs.getString("memberPassword"));
-            member.setRole(rs.getString("memberRole"));
+            member.setId(rs.getString("id"));
+            member.setPassword(rs.getString("password"));
+            member.setScore(rs.getInt("score"));
+            member.setNickname(rs.getString("nickname"));
             return member;
         };
     }

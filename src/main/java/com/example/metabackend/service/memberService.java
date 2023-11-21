@@ -30,10 +30,10 @@ public class memberService {
 
     public Member join(CreateMemberDTO form) throws IllegalStateException{
         Member member = new Member();
-        member.setName(form.getName());
-        member.setMemberId(form.getId());
-        member.setMemberPassword(passwordEncoder.encode(form.getPassword()));
-        member.setRole("ROLE_ADMIN");
+        member.setNickname(form.getNickname());
+        member.setId(form.getId());
+        member.setPassword(passwordEncoder.encode(form.getPassword()));
+        //member.setRole("ROLE_ADMIN");
         Duplicate(member);
         memberrepository.save(member);
         return member;
@@ -53,7 +53,7 @@ public class memberService {
         return tokenInfo;
     }
     private void Duplicate(Member member) { // ID와 password 일치 코드
-        memberrepository.findbyid(member.getMemberId()).ifPresent(m -> {
+        memberrepository.findbyid(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 있는 ID");
         });
 

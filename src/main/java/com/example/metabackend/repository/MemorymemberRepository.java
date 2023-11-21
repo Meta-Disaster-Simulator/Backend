@@ -18,17 +18,16 @@ public class MemorymemberRepository implements memberRepository{
     }
 
     @Override
-    public Optional<Member> findbyid(String memberid) {
+    public Optional<Member> findbyid(String id) {
         return db.values().stream()
-                .filter(member -> member.getMemberId().equals(memberid))
+                .filter(member -> member.getId().equals(id))
                 .findAny();
     }
 
     @Override
-    public Optional<Member> findByName(String name) {
+    public Optional<Member> findByNickname(String name) {
         return Optional.empty();
     }
-
 
     public void Clear() {
         db.clear();
