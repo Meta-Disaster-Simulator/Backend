@@ -9,15 +9,16 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class MyUserDetail implements UserDetails {
-    private String memberId;
+    private String id;
     private String password;
     private String role;
 
     public MyUserDetail(Member member) {
-        this.memberId = member.getMemberId();
-        this.password = member.getMemberPassword();
-        this.role = member.getRole();
+        this.id = member.getId();
+        this.password = member.getPassword();
+        // this.role = member.getRole();
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.role));
@@ -30,7 +31,7 @@ public class MyUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.memberId;
+        return this.id;
     }
 
     @Override

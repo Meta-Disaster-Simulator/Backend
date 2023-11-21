@@ -74,9 +74,6 @@ public class SecurityConfig {
         PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(idForEncode, encoders);
         return passwordEncoder;
     }
-
-
-
 }
 
 

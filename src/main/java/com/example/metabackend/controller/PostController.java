@@ -31,7 +31,7 @@ public class PostController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")// 회원가입 요청
+    @PostMapping("/login")// 로그인 요청
     @ResponseBody
     public TokenInfo login( login_form loginForm) {
         TokenInfo tokenInfo = memberservice.login(loginForm);
