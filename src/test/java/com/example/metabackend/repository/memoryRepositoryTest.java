@@ -15,9 +15,10 @@ public class memoryRepositoryTest {
     @Test
     public void 저장() {
         Member member = new Member();
-        member.setName("name");
-        member.setMemberPassword("password");
-        member.setMemberId("Id");
+        member.setNickname("name");
+        member.setPassword("password");
+        member.setId("Id");
+        member.setScore(0);
         repository.save(member);
         Assertions.assertThat(repository.findbyid("Id").get())
                 .isEqualTo(member);
