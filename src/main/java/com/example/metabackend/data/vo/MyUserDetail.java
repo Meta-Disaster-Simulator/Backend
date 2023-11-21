@@ -11,7 +11,7 @@ import java.util.Collections;
 public class MyUserDetail implements UserDetails {
     private String id;
     private String password;
-    private String role;
+    //private String role;
 
     public MyUserDetail(Member member) {
         this.id = member.getId();
@@ -21,7 +21,7 @@ public class MyUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(this.role));
+        return Collections.singletonList(new SimpleGrantedAuthority("Guest"));
     }
 
     @Override
