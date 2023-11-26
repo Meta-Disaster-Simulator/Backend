@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class PostController {
-
-
     private memberService memberservice;
 
     @Autowired
@@ -21,7 +19,7 @@ public class PostController {
         this.memberservice = memberService;
     }
 
-    @PostMapping("/signup")// 회원가입 요청
+      @PostMapping("/signup")// 회원가입 요청
     public String signup_member(CreateMemberDTO form) {
         try {
             memberservice.join(form);
@@ -33,10 +31,8 @@ public class PostController {
 
     @PostMapping("/login")// 로그인 요청
     @ResponseBody
-    public TokenInfo login( login_form loginForm) {
+    public TokenInfo login(login_form loginForm) {
         TokenInfo tokenInfo = memberservice.login(loginForm);
         return tokenInfo;
     }
-
-
 }
