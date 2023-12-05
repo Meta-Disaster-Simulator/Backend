@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,6 +24,7 @@ public class PostController {
     }
 
       @PostMapping("/signup")// 회원가입 요청
+      @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String signup_member( SignupDTO form) {
         try {
             memberservice.join(form);
@@ -33,12 +35,14 @@ public class PostController {
     }
 
     @PostMapping("/login")// 로그인 요청
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseBody
     public TokenInfo login(LoginDTO loginDTO) {
         TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
     @PostMapping("/refresh")// 로그인 요청
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseBody
     public TokenInfo refreshToken(HttpServletRequest request) {
         String refreshToken = request.getHeader("Authorization");
