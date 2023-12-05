@@ -24,7 +24,7 @@ public class PostController {
     }
 
       @PostMapping("/signup")// 회원가입 요청
-    public String signup_member(@RequestBody SignupDTO form) {
+    public String signup_member( SignupDTO form) {
         try {
             memberservice.join(form);
         } catch (IllegalStateException e) {
@@ -35,7 +35,7 @@ public class PostController {
 
     @PostMapping("/login")// 로그인 요청
     @ResponseBody
-    public TokenInfo login(@RequestBody LoginDTO loginDTO) {
+    public TokenInfo login(LoginDTO loginDTO) {
         TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
