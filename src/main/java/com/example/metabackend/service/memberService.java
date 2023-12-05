@@ -63,9 +63,13 @@ public class memberService {
 
         return tokenInfo;
     }
-    private void Duplicate(Member member) { // ID와 password 일치 코드
+    private void Duplicate(Member member) { // ID와 닉네임  일치 코드
         memberrepository.findbyid(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 있는 ID");
+        });
+
+        memberrepository.findByNickname(member.getNickname()).ifPresent(m -> {
+            throw new IllegalStateException("이미 있는 닉네임");
         });
     }
     public String generateAccessToken(String refreshToken){
