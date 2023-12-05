@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class PostController {
     private memberService memberservice;
@@ -24,7 +25,6 @@ public class PostController {
     }
 
       @PostMapping("/signup")// 회원가입 요청
-      @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String signup_member( SignupDTO form) {
         try {
             memberservice.join(form);
@@ -35,14 +35,12 @@ public class PostController {
     }
 
     @PostMapping("/login")// 로그인 요청
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseBody
     public TokenInfo login(LoginDTO loginDTO) {
         TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
     @PostMapping("/refresh")// 로그인 요청
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseBody
     public TokenInfo refreshToken(HttpServletRequest request) {
         String refreshToken = request.getHeader("Authorization");
