@@ -6,14 +6,20 @@ import com.example.metabackend.data.dto.CreateMemberDTO;
 import com.example.metabackend.data.dto.TokenInfo;
 import com.example.metabackend.data.dto.login_form;
 import com.example.metabackend.repository.memberRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Slf4j
 public class memberService {
     private memberRepository memberrepository;
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
@@ -21,11 +27,9 @@ public class memberService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     public memberService(memberRepository memberrpository) {
         this.memberrepository = memberrpository;
-
     }
 
     //회원 가입 로직
@@ -63,7 +67,15 @@ public class memberService {
         memberrepository.findbyid(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 있는 ID");
         });
-
-
+    }
+    public String generateAccessToken(String refreshToken){
+        Claims claims = jwtTokenProvider.parseClaims(refreshToken);
+        String accessToken = Jwts.builder()
+                .setSubject(claims.get("sub").toString())
+                .claim("auth", claims.get("auth").toString())
+                .setExpiration(jwtTokenProvider.accessTokenExpiresIn)
+                .signWith(jwtTokenProvider.key, SignatureAlgorithm.HS256)
+                .compact();
+        return accessToken;
     }
 }

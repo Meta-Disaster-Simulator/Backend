@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity//(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/index.html")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/Build/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher( "/")).permitAll()
+                        //.requestMatchers(new AntPathRequestMatcher("/user")).permitAll()
                         .anyRequest().authenticated())
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/**")))

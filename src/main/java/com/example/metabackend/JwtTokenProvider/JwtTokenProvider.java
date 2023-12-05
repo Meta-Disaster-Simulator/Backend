@@ -25,7 +25,9 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    private final Key key;
+    public final Key key;
+    public Date accessTokenExpiresIn;      // 1분
+    public Date refreshTokenExpiresIn;   // 1시간
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -40,18 +42,23 @@ public class JwtTokenProvider {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
+
+        accessTokenExpiresIn = new Date(now + 60000);      // 1분
+        refreshTokenExpiresIn = new Date(now + 3600000);   // 1시간
+
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 86400000);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim("auth", authorities)
-                .setExpiration(accessTokenExpiresIn)
+                .setSubject(authentication.getName())         // db에 저장되어있는 email이 payload의 sub키 아래에 저장
+                .claim("auth", authorities)             // db에 저장되어있는 역할이 payload의 auth키 아래에 저장
+                .setExpiration(accessTokenExpiresIn)          // payload의 exp키 아래에 유효기간 저장
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
+                .setSubject(authentication.getName())
+                .claim("auth", authorities)
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -84,6 +91,7 @@ public class JwtTokenProvider {
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
+
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
@@ -99,7 +107,7 @@ public class JwtTokenProvider {
         return false;
     }
 
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {

@@ -4,6 +4,7 @@ import com.example.metabackend.data.dto.login_form;
 import com.example.metabackend.service.memberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -24,17 +25,18 @@ public class GetPageController {
 
     @GetMapping("/signup") // 회원 가입 페이지
     public String signup_page() {
-        return "/member/signup";
+        return "member/signup";
     }
 
 
     @GetMapping("/login") // 로그인 페이지
     public String login_get(login_form login_form) {
 
-        return "/member/login";
+        return "member/login";
     }
     @GetMapping("/user") // 임시 권한 적용 페이지
-    public String user_get(){
+    public String user_get(Model model) {
+        model.addAttribute("info", "사용자 정보입니다.");
         return "user_access";
     }
     @GetMapping("/game") // game 페이지
