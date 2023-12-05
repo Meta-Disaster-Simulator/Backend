@@ -2,9 +2,8 @@ package com.example.metabackend.service;
 
 import com.example.metabackend.JwtTokenProvider.JwtTokenProvider;
 import com.example.metabackend.data.domain.Member;
-import com.example.metabackend.data.dto.CreateMemberDTO;
+import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.data.dto.TokenInfo;
-import com.example.metabackend.data.dto.login_form;
 import com.example.metabackend.repository.memberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -35,7 +34,7 @@ public class memberService {
     //회원 가입 로직
     // DTO 를 domain으로 수정
     // 동일한 id 있을 시에는 예외
-    public Member join(CreateMemberDTO form) throws IllegalStateException{
+    public Member join(SignupDTO form) throws IllegalStateException{
         Member member = new Member();
         member.setNickname(form.getNickname());
         member.setId(form.getId());
