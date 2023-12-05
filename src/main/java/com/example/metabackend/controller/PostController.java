@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -23,7 +24,7 @@ public class PostController {
     }
 
       @PostMapping("/signup")// 회원가입 요청
-    public String signup_member(SignupDTO form) {
+    public String signup_member(@RequestBody SignupDTO form) {
         try {
             memberservice.join(form);
         } catch (IllegalStateException e) {
@@ -34,7 +35,7 @@ public class PostController {
 
     @PostMapping("/login")// 로그인 요청
     @ResponseBody
-    public TokenInfo login(LoginDTO loginDTO) {
+    public TokenInfo login(@RequestBody LoginDTO loginDTO) {
         TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
