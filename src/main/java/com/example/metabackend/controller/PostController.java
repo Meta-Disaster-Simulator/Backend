@@ -1,6 +1,7 @@
 package com.example.metabackend.controller;
 
 
+import com.example.metabackend.data.dto.LoginDTO;
 import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.data.dto.TokenInfo;
 import com.example.metabackend.service.memberService;
@@ -33,8 +34,8 @@ public class PostController {
 
     @PostMapping("/login")// 로그인 요청
     @ResponseBody
-    public TokenInfo login(login_form loginForm) {
-        TokenInfo tokenInfo = memberservice.login(loginForm);
+    public TokenInfo login(LoginDTO loginDTO) {
+        TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
     @PostMapping("/refresh")// 로그인 요청

@@ -40,6 +40,7 @@ public class JDBCTemplatememberRepository implements memberRepository {
     public Optional<Member> findByNickname(String nickname) {
         String sql = "SELECT * FROM member where nickname=?";
         List<Member> result = jdbcTemplate.query(sql, memberRowMapper(), nickname);
+
         return result.stream().findAny();
     }
 
