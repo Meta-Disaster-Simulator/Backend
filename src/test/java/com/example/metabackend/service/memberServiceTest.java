@@ -1,7 +1,7 @@
 package com.example.metabackend.service;
 
 import com.example.metabackend.data.domain.Member;
-import com.example.metabackend.data.dto.CreateMemberDTO;
+import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.repository.memberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class memberServiceTest {
 
     @Test
     public void 올바른_회원가입_테스트() { // 최근 작동 여부 : O
-        CreateMemberDTO form = new CreateMemberDTO();
+        SignupDTO form = new SignupDTO();
         form.setId("아이디");
         form.setNickname("강민기");
         form.setPassword("비밀번호");
@@ -34,12 +34,12 @@ public class memberServiceTest {
 
     @Test
     public void 아이디_중복_회원가입_에러_테스트() { // 최근 작동 여부 : O
-        CreateMemberDTO form = new CreateMemberDTO();
+        SignupDTO form = new SignupDTO();
         form.setId("Id");
         form.setNickname("name");
         form.setPassword("password");
 
-        CreateMemberDTO form2 = new CreateMemberDTO();
+        SignupDTO form2 = new SignupDTO();
         form2.setId("Id");
         form2.setNickname("na");
         form2.setPassword("pass");
