@@ -2,6 +2,7 @@ package com.example.metabackend.service;
 
 import com.example.metabackend.JwtTokenProvider.JwtTokenProvider;
 import com.example.metabackend.data.domain.Member;
+import com.example.metabackend.data.dto.LoginDTO;
 import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.data.dto.TokenInfo;
 import com.example.metabackend.repository.memberRepository;
@@ -48,10 +49,10 @@ public class memberService {
 
     //로그인
     //
-    public TokenInfo login(login_form loginForm) {
+    public TokenInfo login(LoginDTO loginDTO) {
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginForm.getId(), loginForm.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getId(), loginDTO.getPassword());
 
         // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
         // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
@@ -62,9 +63,13 @@ public class memberService {
 
         return tokenInfo;
     }
-    private void Duplicate(Member member) { // ID와 password 일치 코드
+    private void Duplicate(Member member) { // ID와 닉네임  일치 코드
         memberrepository.findbyid(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 있는 ID");
+        });
+
+        memberrepository.findByNickname(member.getNickname()).ifPresent(m -> {
+            throw new IllegalStateException("이미 있는 닉네임");
         });
     }
     public String generateAccessToken(String refreshToken){
