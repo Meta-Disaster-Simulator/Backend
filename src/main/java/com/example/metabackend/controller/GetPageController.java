@@ -1,6 +1,5 @@
 package com.example.metabackend.controller;
 
-import com.example.metabackend.data.dto.login_form;
 import com.example.metabackend.service.memberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,9 +1,8 @@
 package com.example.metabackend.controller;
 
 
-import com.example.metabackend.data.dto.CreateMemberDTO;
+import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.data.dto.TokenInfo;
-import com.example.metabackend.data.dto.login_form;
 import com.example.metabackend.service.memberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class PostController {
     }
 
       @PostMapping("/signup")// 회원가입 요청
-    public String signup_member(CreateMemberDTO form) {
+    public String signup_member(SignupDTO form) {
         try {
             memberservice.join(form);
         } catch (IllegalStateException e) {
