@@ -1,5 +1,6 @@
 package com.example.metabackend.controller;
 
+import com.example.metabackend.data.dto.LoginDTO;
 import com.example.metabackend.service.memberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class GetPageController {
 
 
     @GetMapping("/login") // 로그인 페이지
-    public String login_get(login_form login_form) {
+    public String login_get(LoginDTO loginDTO) {
 
         return "member/login";
     }
