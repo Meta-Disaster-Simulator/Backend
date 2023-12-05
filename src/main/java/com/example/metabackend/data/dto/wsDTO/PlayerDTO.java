@@ -1,6 +1,7 @@
 package com.example.metabackend.data.dto.wsDTO;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
