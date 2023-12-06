@@ -46,10 +46,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
-                .cors((cors)->{
-                    cors.disable();
+                .cors((cors)->{cors.configurationSource(corsConfigurationSource());
                 })
-
                 .logout((logout) -> logout // 로그아웃 화면 설정 이렇게 설정하면 로그아웃 mapper를 따로 안 구성해도 됨
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                         .logoutSuccessUrl("/")
