@@ -3,6 +3,7 @@ package com.example.metabackend.service;
 import com.example.metabackend.JwtTokenProvider.JwtTokenProvider;
 import com.example.metabackend.data.domain.Member;
 import com.example.metabackend.data.dto.LoginDTO;
+import com.example.metabackend.data.dto.ScoreUpdateDTO;
 import com.example.metabackend.data.dto.SignupDTO;
 import com.example.metabackend.data.dto.TokenInfo;
 import com.example.metabackend.repository.memberRepository;
@@ -89,4 +90,17 @@ public class memberService {
         Optional<Member> member = memberrepository.findbyid((id));
         return member.get();
     }
+
+    public boolean updateScore(ScoreUpdateDTO scoreUpdateDTO){
+        Optional<Member> member = memberrepository.findByNickname((scoreUpdateDTO.getNickname()));
+        Member m = member.get();
+        if(m.getScore() < scoreUpdateDTO.getScore()){
+            m.setScore(scoreUpdateDTO.getScore());
+            memberrepository.updatescore(m);
+        }
+        return true;
+    }
+
+
+
 }

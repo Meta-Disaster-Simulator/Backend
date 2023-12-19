@@ -29,6 +29,11 @@ public class MemorymemberRepository implements memberRepository{
         return Optional.empty();
     }
 
+    @Override
+    public Member updatescore(Member member) {
+        return null;
+    }
+
     public void Clear() {
         db.clear();
     }

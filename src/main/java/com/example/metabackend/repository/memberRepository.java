@@ -13,7 +13,7 @@ public interface memberRepository { //member 관리 repository
 
     Optional<Member> findByNickname(String name);
 
-
+    Member updatescore(Member member);
 //    Member findbyname(String name);
 
 
