@@ -44,6 +44,13 @@ public class JDBCTemplatememberRepository implements memberRepository {
         return result.stream().findAny();
     }
 
+    @Override
+    public Member updatescore(Member member) {
+        String sql = "UPDATE member SET score=? WHERE nickname=?";
+        jdbcTemplate.update(sql, member.getScore(), member.getNickname());
+        return null;
+    }
+
     private RowMapper<Member> memberRowMapper() {
         return (rs,rowNum) ->{
             Member member = new Member();

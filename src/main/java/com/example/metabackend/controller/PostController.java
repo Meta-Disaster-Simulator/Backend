@@ -59,4 +59,13 @@ public class PostController {
         Member member = memberservice.getStatus(statusDTO.getId());
         return new ReturnStatusDTO(member.getNickname(), member.getScore());
     }
+    @PostMapping("/score")
+    @ResponseBody
+    public String getStatus(@RequestBody ScoreUpdateDTO scoreUpdateDTO){
+        memberservice.updateScore(scoreUpdateDTO);
+        return "success";
+    }
+
+
+
 }
