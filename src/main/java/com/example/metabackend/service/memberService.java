@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 @Slf4j
 public class memberService {
     private memberRepository memberrepository;
@@ -81,5 +83,10 @@ public class memberService {
                 .signWith(jwtTokenProvider.key, SignatureAlgorithm.HS256)
                 .compact();
         return accessToken;
+    }
+
+    public Member getStatus(String id){
+        Optional<Member> member = memberrepository.findbyid((id));
+        return member.get();
     }
 }

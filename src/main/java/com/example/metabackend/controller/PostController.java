@@ -1,14 +1,14 @@
 package com.example.metabackend.controller;
 
 
-import com.example.metabackend.data.dto.LoginDTO;
-import com.example.metabackend.data.dto.SignupDTO;
-import com.example.metabackend.data.dto.TokenInfo;
+import com.example.metabackend.data.domain.Member;
+import com.example.metabackend.data.dto.*;
 import com.example.metabackend.service.memberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -51,5 +51,12 @@ public class PostController {
                 .accessToken(memberservice.generateAccessToken(refreshToken))
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @GetMapping("/stat")
+    @ResponseBody
+    public ReturnStatusDTO getStatus(StatusDTO statusDTO){
+        Member member = memberservice.getStatus(statusDTO.getId());
+        return new ReturnStatusDTO(member.getNickname(), member.getScore());
     }
 }
