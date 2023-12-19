@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,8 +23,8 @@ public class PostController {
         this.memberservice = memberService;
     }
 
-      @PostMapping("/signup")// 회원가입 요청
-    public String signup_member( SignupDTO form) {
+    @PostMapping("/signup")// 회원가입 요청
+    public String signup_member(SignupDTO form) {
         try {
             memberservice.join(form);
         } catch (IllegalStateException e) {
@@ -54,7 +53,7 @@ public class PostController {
                 .build();
     }
 
-    @GetMapping("/stat")
+    @PostMapping("/stat")
     @ResponseBody
     public ReturnStatusDTO getStatus(@RequestBody StatusDTO statusDTO){
         Member member = memberservice.getStatus(statusDTO.getId());
