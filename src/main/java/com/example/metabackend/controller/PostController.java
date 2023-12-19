@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -55,7 +56,7 @@ public class PostController {
 
     @GetMapping("/stat")
     @ResponseBody
-    public ReturnStatusDTO getStatus(StatusDTO statusDTO){
+    public ReturnStatusDTO getStatus(@RequestBody StatusDTO statusDTO){
         Member member = memberservice.getStatus(statusDTO.getId());
         return new ReturnStatusDTO(member.getNickname(), member.getScore());
     }
