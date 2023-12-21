@@ -1,7 +1,8 @@
-/*
 package com.example.metabackend.controller;
 
 
+import com.example.metabackend.data.dto.wsDTO.ChatDTO;
+import com.example.metabackend.data.dto.wsDTO.SendChatDTO;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -9,17 +10,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ScocketController {
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting sendMessage(HelloMessage helloMessage) {
-        Greeting g =  new Greeting();
-        g.setContent(helloMessage.getName());
-        try {
-            Thread.sleep(3000); //1초 대기
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return g;
+    @MessageMapping("/chat")
+    @SendTo("/topic/chat")
+    public ChatDTO sendMessage(SendChatDTO sendChatDTO) {
+        ChatDTO chatDTO = new ChatDTO();
+        chatDTO.setCommand(sendChatDTO.getNickname()+": "+sendChatDTO.getCommand());
+        return chatDTO;
     }
 }
-*/
