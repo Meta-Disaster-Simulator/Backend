@@ -42,7 +42,7 @@ public class PostController {
     }
     @PostMapping("/logout")// 로그아웃 요청
     @ResponseBody
-    public ResponseEntity<?> logout(StatusDTO logoutDTO) {
+    public ResponseEntity<?> logout(@RequestBody StatusDTO logoutDTO) {
         memberservice.logout(logoutDTO);
         return ResponseEntity.ok().build();
     }
