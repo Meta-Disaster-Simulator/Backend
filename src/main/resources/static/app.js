@@ -24,6 +24,10 @@ function connect() {
         stompClient.subscribe('/topic/new', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        stompClient.subscribe('/topic/chat', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).command);
+        });
+
     });
 }
 
@@ -67,6 +71,16 @@ function sendNew(){
     stompClient.send("/topic/new", {}, JSON.stringify(dto))
 
 }
+function sendchat(){
+    var dto = {
+        'nickname' : 'kangmingi',
+        'command' : 'hi working chat'
+    }
+    stompClient.send("/app/chat", {}, JSON.stringify(dto))
+
+}
+
+
 
 $(function () {
     $("form").on('submit', function (e) {
@@ -76,4 +90,6 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
     $( "#new" ).click(function() { sendNew(); });
+    $( "#chat" ).click(function() { sendchat(); });
+
 });
