@@ -2,10 +2,7 @@ package com.example.metabackend.service;
 
 import com.example.metabackend.JwtTokenProvider.JwtTokenProvider;
 import com.example.metabackend.data.domain.Member;
-import com.example.metabackend.data.dto.LoginDTO;
-import com.example.metabackend.data.dto.ScoreUpdateDTO;
-import com.example.metabackend.data.dto.SignupDTO;
-import com.example.metabackend.data.dto.TokenInfo;
+import com.example.metabackend.data.dto.*;
 import com.example.metabackend.repository.memberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +14,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -30,6 +29,8 @@ public class memberService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private List<String> loggedInUsers = new ArrayList<>();
     @Autowired
     public memberService(memberRepository memberrpository) {
         this.memberrepository = memberrpository;
@@ -50,22 +51,37 @@ public class memberService {
         return member;
     }
 
-    //로그인
-    //
+    // 로그인
     public TokenInfo login(LoginDTO loginDTO) {
-        // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
+        // 1. 로그인 시도하는 id가 이미 로그인 중인가?
+        if (loggedInUsers.contains(loginDTO.getId())){
+            throw new IllegalArgumentException("Already logged in");
+        }
+
+        // 2. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getId(), loginDTO.getPassword());
 
-        // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
+        // 3. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
         // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        // 4. 인증 정보를 기반으로 JWT 토큰 생성
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+
+        // 5. 로그인 성공이므로 id 변수에 저장
+        loggedInUsers.add(loginDTO.getId());
 
         return tokenInfo;
     }
+    public void logout(StatusDTO logoutDTO){
+        if (loggedInUsers.contains(logoutDTO.getId())){
+            loggedInUsers.remove(logoutDTO.getId());
+        }
+        else
+            throw new IllegalArgumentException("Didn't login id");
+    }
+
     private void Duplicate(Member member) { // ID와 닉네임  일치 코드
         memberrepository.findbyid(member.getId()).ifPresent(m -> {
             throw new IllegalStateException("이미 있는 ID");

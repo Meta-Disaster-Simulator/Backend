@@ -6,6 +6,7 @@ import com.example.metabackend.data.dto.*;
 import com.example.metabackend.service.memberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,13 @@ public class PostController {
         TokenInfo tokenInfo = memberservice.login(loginDTO);
         return tokenInfo;
     }
+    @PostMapping("/logout")// 로그아웃 요청
+    @ResponseBody
+    public ResponseEntity<?> logout(StatusDTO logoutDTO) {
+        memberservice.logout(logoutDTO);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/refresh")// 로그인 요청
     @ResponseBody
     public TokenInfo refreshToken(HttpServletRequest request) {
